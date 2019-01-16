@@ -1,0 +1,45 @@
+{
+  "customers": [
+    {
+      "id": "30000001",
+      "dni": "3000000",
+      "name": "FACUNDO SDS",
+      "age": 312
+    },
+    {
+      "id": "500000",
+      "dni": "50000",
+      "name": "CARLOS SANCHEZ",
+      "age": 40
+    },
+    {
+      "dni": "6868686",
+      "name": "Nuevo cliente",
+      "age": 10,
+      "id": "XSCfaW5"
+    },
+    {
+      "name": "NUEVO CLIENTE 1",
+      "dni": "99999",
+      "age": 11,
+      "id": "kxmVQVd"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
