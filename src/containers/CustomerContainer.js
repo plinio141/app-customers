@@ -10,11 +10,13 @@ import CustomerData from '../components/CustomerData';
 import { getCustomerByDni } from '../selectors/customers';
 import { fetchCustomers } from './../actions/fetchCustomers'
 import { updateCustomer } from './../actions/updateCustomers'
+import { deleteCustomer } from './../actions/deleteCustomer'
+
 
 class CustomerContainer extends Component {
 
     componentDidMount() {
-        if(!this.props.customer){
+        if(!!this.props.customer){
             this.props.fetchCustomers();
         }
     }
@@ -38,17 +40,33 @@ class CustomerContainer extends Component {
         this.props.history.goBack();
     }
 
-    renderBody = () => (
-        <Route path="/customer/:dni/edit" children={
-            ({ match }) => {
-                const CustomerControl = match ? CustomerEdit : CustomerData;
+    handleOnDelete = id =>{
+        this.props.deleteCustomer(id).then(v => {
+            this.props.history.goBack();
+        });
+    }
+
+    renderCustomerControl = (isEdit, isDelete) =>{
+        const CustomerControl = isEdit ? CustomerEdit : CustomerData;
                 return <CustomerControl 
                     {...this.props.customer} 
                     onSubmit={this.handleSubmit}
                     onSubmitSuccess = {this.handleSubmitSuccess}
                     onBack={this.handleOnBack}
+                    isDeleteAllow={!!isDelete}
+                    onDelete={this.handleOnDelete}
                 />
-            }
+    }
+
+    renderBody = () => (
+        <Route path="/customer/:dni/edit" children={
+            ({ match: isEdit }) => (
+                <Route path="/customer/:dni/del" children={
+                    ({ match: isDelete }) => (
+                     this.renderCustomerControl(isEdit, isDelete)
+                    )
+                } />
+            )
         } />
     )
     //<p>Datos del Cliente "{this.props.customer.name}"</p>
@@ -76,5 +94,6 @@ const mapStateToProps = (state, props) => ({
 
 export default withRouter(connect(mapStateToProps,{
     fetchCustomers,
-    updateCustomer
+    updateCustomer,
+    deleteCustomer
 })(CustomerContainer));
